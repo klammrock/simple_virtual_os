@@ -30,3 +30,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     hardware.h
+
+DISTFILES += \
+    TODO
