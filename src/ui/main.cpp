@@ -1,8 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
+#include <QQmlContext>
 
 #include "main_lib.h"
+#include "hardware.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +16,10 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+    auto hardware = new Hardware();
+    engine.rootContext()->setContextProperty("mainViweModel", hardware);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
     if (engine.rootObjects().isEmpty())
         return -1;
 

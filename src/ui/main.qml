@@ -9,18 +9,39 @@ Window {
   height: 480
   title: qsTr("Hello World")
 
+  Component.onCompleted: {
+      console.log("qml loaded")
+  }
+
+  Connections {
+      target: mainViweModel
+      onMessage: {
+          if (logTextArea.text != "") logTextArea.text = logTextArea.text + "\n"
+          logTextArea.text = logTextArea.text + msg
+          logTextArea.cursorPosition = logTextArea.length
+      }
+  }
+
   //RowLayout {
   Row {
     spacing: 10
 
     Rectangle {
-      width: 300
-      height: 400
-      color: "black"
-//      anchors {
-//          left: parent.left
-//          leftMargin: 10
-//      }
+        height: 400
+        width: 300
+        color: "black"
+
+        ScrollView {
+            anchors.fill: parent
+            //clip: true
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
+            TextArea {
+                id: logTextArea
+                color: "green"
+                readOnly: true
+            }
+        }
     }
 
     Column {
@@ -31,10 +52,16 @@ Window {
 
       Button {
         text: qsTr("Start")
+        onClicked: {
+            mainViweModel.startI()
+        }
       }
 
       Button {
         text: qsTr("Restart")
+        onClicked: {
+            mainViweModel.start()
+        }
       }
 
       Button {
