@@ -4,3 +4,11 @@ Somple OS
 OS Loader
 Assembler
 Linker
+
+hash OPTAB -> func
+memory protect - out of array disable access
+thread - hardware exec - loop: getCommand exec - see Petuhov (steps)
+cant interrupt command exec - atomic
+signal stop HW
+-CPU freq as Timer?
+
