@@ -5,20 +5,23 @@ import QtQuick.Controls 2.3
 
 Window {
   visible: true
-  width: 640
-  height: 480
+  width: 800
+  height: 600
   title: qsTr("Hello World")
 
   Component.onCompleted: {
       console.log("qml loaded")
   }
 
+  function log(msg) {
+      var date = Qt.formatTime(new Date(), "HH:mm:ss.zzz")
+      logTextArea.append(date + ": " + msg);
+  }
+
   Connections {
       target: mainViweModel
       onMessage: {
-          if (logTextArea.text != "") logTextArea.text = logTextArea.text + "\n"
-          logTextArea.text = logTextArea.text + msg
-          logTextArea.cursorPosition = logTextArea.length
+          log("message from HW: " + msg)
       }
   }
 
@@ -27,8 +30,8 @@ Window {
     spacing: 10
 
     Rectangle {
-        height: 400
-        width: 300
+        height: 500
+        width: 500
         color: "black"
 
         ScrollView {
@@ -51,21 +54,31 @@ Window {
 //      }
 
       Button {
-        text: qsTr("Start")
+        text: qsTr("Get Status")
         onClicked: {
-            mainViweModel.startI()
+            log("HW status: " + (mainViweModel.isStarted ? "started" : "not started"))
         }
       }
 
       Button {
-        text: qsTr("Restart")
+        text: qsTr("Start")
         onClicked: {
             mainViweModel.start()
         }
       }
 
       Button {
-        text: qsTr("Shutdown")
+        text: qsTr("Restart")
+        onClicked: {
+            mainViweModel.restart()
+        }
+      }
+
+      Button {
+        text: qsTr("Stop")
+        onClicked: {
+            mainViweModel.stop()
+        }
       }
     }
   }
