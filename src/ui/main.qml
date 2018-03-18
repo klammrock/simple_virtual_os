@@ -1,7 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.3
-//import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.3
 
 Window {
   visible: true
@@ -25,13 +25,12 @@ Window {
       }
   }
 
-  //RowLayout {
-  Row {
-    spacing: 10
+  RowLayout {
+    anchors.fill: parent
 
     Rectangle {
-        height: 500
-        width: 500
+        Layout.fillWidth: true
+        Layout.fillHeight: true
         color: "black"
 
         ScrollView {
@@ -47,11 +46,10 @@ Window {
         }
     }
 
-    Column {
+    ColumnLayout {
       spacing: 10
-//      anchors {
-//          top: parent.top
-//      }
+      Layout.margins: 10
+      Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 
       Button {
         text: qsTr("Get Status")
