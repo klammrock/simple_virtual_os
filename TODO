@@ -11,4 +11,5 @@ thread - hardware exec - loop: getCommand exec - see Petuhov (steps)
 cant interrupt command exec - atomic
 signal stop HW
 -CPU freq as Timer?
-
+registers for arithmetics (add..)
+video memory (NxM) and display
