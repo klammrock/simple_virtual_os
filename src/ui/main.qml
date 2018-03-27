@@ -61,21 +61,21 @@ Window {
       Button {
         text: qsTr("Start")
         onClicked: {
-            mainViweModel.start()
+            mainViweModel.startHW()
         }
       }
 
       Button {
         text: qsTr("Restart")
         onClicked: {
-            mainViweModel.restart()
+            mainViweModel.restartHW()
         }
       }
 
       Button {
         text: qsTr("Stop")
         onClicked: {
-            mainViweModel.stop()
+            mainViweModel.stopHW()
         }
       }
     }

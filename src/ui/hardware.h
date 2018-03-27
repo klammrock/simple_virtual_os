@@ -2,9 +2,16 @@
 #define HARDWARE_H
 
 #include <QObject>
-//#include <QString>
+#include <QHash>
+#include <QThread>
 
-class Hardware : public QObject
+class Hardware;
+// function for optable
+typedef void (Hardware::*opfunc)();
+
+class HardwareThread;
+
+class Hardware : public QThread
 {
     Q_OBJECT
 public:
@@ -17,20 +24,33 @@ public:
     bool isStarted() const { return m_isStarted; }
 
 public slots:
-    void start();
-    void stop();
-    void restart();
+    void startHW();
+    void stopHW();
+    void restartHW();
 
 signals:
     void message(const QString& msg);
 
+// QThread interface
+protected:
+    virtual void run() override;
+
 private:
+    void initOptable();
     void initDiskFromFile();
     void createTestDiskFile();
     void boot();
-    void run();
+    void run2();
     void getCurrentCommand();
     void execCurrentCommand();
+
+private:
+    void opfunc0();
+    void opfunc1();
+    void opfunc2();
+
+private:
+    static QString arrayToString(const char* array, int length);
 
 private:
     // state
@@ -43,6 +63,11 @@ private:
     // memory
     unsigned char* m_memory;
     unsigned char* m_disk;
+
+    // optable
+    QHash<int, opfunc>* m_optable;
+
+    HardwareThread* m_hardwareThread;
 };
 
 #endif // HARDWARE_H
