@@ -13,3 +13,4 @@ signal stop HW
 -CPU freq as Timer?
 registers for arithmetics (add..)
 video memory (NxM) and display
+virtual keyboard
