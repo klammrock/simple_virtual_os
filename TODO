@@ -4,6 +4,7 @@ Somple OS
 OS Loader
 Assembler
 Linker
+TextEditor
 
 hash OPTAB -> func
 memory protect - out of array disable access
@@ -13,4 +14,5 @@ signal stop HW
 -CPU freq as Timer?
 registers for arithmetics (add..)
 video memory (NxM) and display
+    80x25 size, refresh 24Hz (42ms)
 virtual keyboard
