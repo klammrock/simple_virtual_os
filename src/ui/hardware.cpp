@@ -19,6 +19,9 @@ static const QString DISK_FILENAME = "test_disk.bin";
 
 static const bool FORCE_REWRITE_DISK_FILE = false;
 
+static const quint32 DISPLAY_N_COLUMNS = 40;
+static const quint32 DISPLAY_N_ROWS = 10;
+
 Hardware::Hardware(QObject* parent) :
     QThread(parent),
     m_isStarted(false),
@@ -27,6 +30,7 @@ Hardware::Hardware(QObject* parent) :
     m_memory(new unsigned char[MEMORY_SIZE_BYTES]),
     m_disk(new unsigned char[DISK_SIZE_BYTES]),
     m_optable(new QHash<int, opfunc>()),
+    m_display(new unsigned char[DISPLAY_N_ROWS * DISPLAY_N_COLUMNS]),
     m_hardwareThread(nullptr)
 {
     qDebug() << "Hardware()";
@@ -37,6 +41,8 @@ Hardware::Hardware(QObject* parent) :
     std::fill(m_executedCommand, m_executedCommand + COMMAND_SIZE_BYTES, 0);
     std::fill(m_memory, m_memory + MEMORY_SIZE_BYTES, 0);
     std::fill(m_disk, m_disk + DISK_SIZE_BYTES, 0);
+    std::fill(m_display, m_display + DISPLAY_N_ROWS * DISPLAY_N_COLUMNS, 48);
+    m_display[0] = 0;
 
     // init disk from binary file
     initDiskFromFile();
@@ -45,9 +51,10 @@ Hardware::Hardware(QObject* parent) :
 Hardware::~Hardware()
 {
     qDebug() << "~Hardware()";
-    delete m_memory;
-    delete m_disk;
+    delete[] m_memory;
+    delete[] m_disk;
     delete m_optable;
+    delete[] m_display;
 }
 
 void Hardware::run()
@@ -64,6 +71,24 @@ void Hardware::run()
 //    emit message("startI");
 //}
 
+QString Hardware::getDisplayText()
+{
+    QString res = "";
+
+    int index = 0;
+    for (unsigned int i = 0; i < DISPLAY_N_ROWS; ++i)
+    {
+        for (unsigned int j = 0; j < DISPLAY_N_COLUMNS; ++j)
+        {
+            unsigned char c = m_display[index++];
+            res += std::isprint(c) ? c : ' ';
+        }
+        res += "\n";
+    }
+
+    return res;
+}
+
 void Hardware::startHW()
 {
     m_isStarted = true;
@@ -77,6 +102,8 @@ void Hardware::startHW()
     if (m_hardwareThread == nullptr)
         m_hardwareThread = new HardwareThread();
     m_hardwareThread->start();
+
+    emit displayUpdated();
 }
 
 void Hardware::stopHW()

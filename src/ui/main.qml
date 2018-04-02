@@ -5,8 +5,8 @@ import QtQuick.Layouts 1.3
 
 Window {
   visible: true
-  width: 800
-  height: 600
+  width: 1400
+  height: 900
   title: qsTr("Hello World")
 
   Component.onCompleted: {
@@ -22,6 +22,14 @@ Window {
       target: mainViweModel
       onMessage: {
           log("message from HW: " + msg)
+      }
+  }
+
+  Connections {
+      target: mainViweModel
+      onDisplayUpdated: {
+          log("onDisplayUpdated")
+          displayTextArea.text = mainViweModel.getDisplayText()
       }
   }
 
@@ -78,6 +86,36 @@ Window {
             mainViweModel.stopHW()
         }
       }
+    }
+
+    ColumnLayout {
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+        Rectangle {
+            width: 450
+            height: 250
+            color: "black"
+
+            TextArea {
+                id: displayTextArea
+                color: "gray"
+                readOnly: true
+                text: "1234567890123456789012345678901234567890\n1\n1\n1\n1\n1\n1\n1\n1\n1"
+                font.family: "Monospace"
+            }
+        }
+
+        Rectangle {
+            width: 200
+            height: 200
+            color: "black"
+
+            TextArea {
+                color: "green"
+                readOnly: true
+                text: "00 FF\n11"
+                font.family: "Monospace"
+            }
+        }
     }
   }
 }

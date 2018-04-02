@@ -15,4 +15,8 @@ signal stop HW
 registers for arithmetics (add..)
 video memory (NxM) and display
     80x25 size, refresh 24Hz (42ms)
+    color for every symbol
 virtual keyboard
+
+// Code
+not use new / delete opreators

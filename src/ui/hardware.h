@@ -23,6 +23,8 @@ public:
 
     bool isStarted() const { return m_isStarted; }
 
+    Q_INVOKABLE QString getDisplayText();
+
 public slots:
     void startHW();
     void stopHW();
@@ -30,6 +32,7 @@ public slots:
 
 signals:
     void message(const QString& msg);
+    void displayUpdated();
 
 // QThread interface
 protected:
@@ -66,6 +69,9 @@ private:
 
     // optable
     QHash<int, opfunc>* m_optable;
+
+    // display memory (video memory) (text mode)
+    unsigned char* m_display;
 
     HardwareThread* m_hardwareThread;
 };
